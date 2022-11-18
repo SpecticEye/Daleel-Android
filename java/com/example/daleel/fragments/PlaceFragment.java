@@ -1,5 +1,7 @@
 package com.example.daleel.fragments;
 
+import static com.example.daleel.data.Places.places;
+
 import android.content.Context;
 import android.os.Bundle;
 
@@ -29,15 +31,6 @@ public class PlaceFragment extends Fragment {
     ArrayList<Place> place_list;
     private OnItemSelectedListener listener;
 
-
-    public String[][] Places = {
-            {"Gelsenkirchen Central Mosque", "Ulrichstraße 4B, 45891 Gelsenkirchen, Germany", "Mosque"},
-            {"Masjid Ar Rahman", "Brockskampweg 2, 45889 Gelsenkirchen, Germany", "Mosque"},
-            {"Essen Central Mosque", "Schalker Str. 23, 45327 Essen, Germany", "Mosque"},
-            {"Berlin Döner", "Haus-Berge-Straße 219, 45356 Essen, Germany", "Restaurant"},
-            {"Salam", "Rathausstraße 12, 20095 Hamburg, Germany", "Restaurant"}
-    };
-
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     //private static final String ARG_PARAM1 = "param1";
 
@@ -62,9 +55,9 @@ public class PlaceFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         place_list = new ArrayList<Place>();
-        for (int i = 0; i < Places.length; i++)
+        for (int i = 0; i < places.length; i++)
         {
-            place_list.add(new Place(Places[i][0], Places[i][1], Places[i][2]));
+            place_list.add(new Place(places[i][0], places[i][1], places[i][2]));
         }
 
         placeAdapter = new PlaceAdapter(getContext(), R.layout.place_item, place_list);
@@ -89,7 +82,23 @@ public class PlaceFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // go to activity to load details fragment
+                //listener.onPlaceItemSelected(position); // (3) Communicate with Activity using Listener
+            }
+        });
+
+        placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 listener.onPlaceItemSelected(position); // (3) Communicate with Activity using Listener
+            }
+        });
+
+        placesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                listener.onPlaceItemSelectedLong(position); // (3) Communicate with Activity using Listener
+                return true;
             }
         });
     }
@@ -111,5 +120,7 @@ public class PlaceFragment extends Fragment {
 
     public interface OnItemSelectedListener {
         void onPlaceItemSelected(int position);
+        void onPlaceItemSelectedLong(int position);
     }
+
 }
