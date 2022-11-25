@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Home"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"/>
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/favBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Favorites"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.CategoriesFragment"
+    android:layout_margin="10dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categories"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/category_button"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/mosque" />
+
+                <ImageButton
+                    android:id="@+id/imageButton3"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/category_button"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/supermarket" />
+
+                <ImageButton
+                    android:id="@+id/imageButton5"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/category_button"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/food" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/category_button"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/service" />
+
+                <ImageButton
+                    android:id="@+id/imageButton4"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/category_button"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/clinic" />
+
+                <ImageButton
+                    android:id="@+id/imageButton6"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/category_button"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/more" />
+
+            </TableRow>
+
+        </TableLayout>
+</LinearLayout>

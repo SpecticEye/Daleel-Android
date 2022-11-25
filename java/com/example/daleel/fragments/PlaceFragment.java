@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.daleel.MainActivity;
+import com.example.daleel.MySQLiteHelper;
 import com.example.daleel.Place;
 import com.example.daleel.PlaceAdapter;
 import com.example.daleel.R;
@@ -30,6 +31,7 @@ public class PlaceFragment extends Fragment {
     ListView placesListView;
     ArrayList<Place> place_list;
     private OnItemSelectedListener listener;
+    MySQLiteHelper db;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     //private static final String ARG_PARAM1 = "param1";
@@ -54,15 +56,20 @@ public class PlaceFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        db = new MySQLiteHelper(getContext());
+
         place_list = new ArrayList<Place>();
         for (int i = 0; i < places.length; i++)
         {
-            place_list.add(new Place(places[i][0], places[i][1], places[i][2]));
+            db.addPlace(new Place(places[i][0], places[i][1], places[i][2], places[i][3], places[i][4], places[i][5], places[i][6]));
+        }
+
+        for (int i = 1; i <= places.length; i++)
+        {
+            place_list.add(db.getPlace(i));
         }
 
         placeAdapter = new PlaceAdapter(getContext(), R.layout.place_item, place_list);
-
-
     }
 
     @Override
@@ -97,7 +104,7 @@ public class PlaceFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                listener.onPlaceItemSelectedLong(position); // (3) Communicate with Activity using Listener
+                listener.onPlaceItemSelectedLong(place_list.get(position).getId()); // (3) Communicate with Activity using Listener
                 return true;
             }
         });

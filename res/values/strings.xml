@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Daleel</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="planets_array">
+        <item>Restaurant</item>
+        <item>Supermarket</item>
+        <item>Mosque</item>
+        <item>Shop</item>
+        <item>Clinic</item>
+        <item>Other</item>
+    </string-array>
 </resources>

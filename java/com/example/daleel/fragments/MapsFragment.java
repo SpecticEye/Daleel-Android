@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.daleel.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,6 +28,8 @@ public class MapsFragment extends Fragment {
     private static final String ARG_PARAM1 = "location";
     private String mParam1;
     private LatLng location;
+    private Button close;
+    private onCloseClickedListener listener;
 
     public static DetailsFragment newInstance(int param1) {
         DetailsFragment fragment = new DetailsFragment();
@@ -77,41 +81,21 @@ public class MapsFragment extends Fragment {
             }
         });
 
-        /*
-        //Async map
-        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(@NonNull GoogleMap googleMap) {
-                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(@NonNull LatLng latLng) {
-                        //When clicked on map
-                        //Initialize marker options
-                        MarkerOptions markerOptions = new MarkerOptions();
-                        //Set position of marker
-                        markerOptions.position(latLng);
-                        //Set title of marker
-                        markerOptions.title(latLng.latitude + " : " + latLng.longitude);
-                        //Remove all marker
-                        googleMap.clear();
-                        //Animate to zoom the marker
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                                latLng, 15
-                        ));
-                        //Add marker on map
-                        googleMap.addMarker(markerOptions);
-                    }
-                });
-            }
-
-
-        });
-        */
-
         return view;
     }
 
+    @Override
+    public void onViewCreated( View view, Bundle savedInstanceState)
+    {
+        close = getView().findViewById(R.id.closeBtn);
 
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.closeMap();
+            }
+        });
+    }
 
     public LatLng getLocationFromAddress(String strAddress) {
         Geocoder coder = new Geocoder(getContext());
@@ -124,6 +108,21 @@ public class MapsFragment extends Fragment {
             ex.printStackTrace();
         }
         return p1;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof MapsFragment.onCloseClickedListener){      // context instanceof YourActivity
+            this.listener = (MapsFragment.onCloseClickedListener) context; // = (YourActivity) context
+        } else {
+            throw new ClassCastException(context.toString()
+                    + " must implement TitleFragment.OnItemSelectedListener");
+        }
+    }
+
+    public interface onCloseClickedListener {
+        void closeMap();
     }
 
 }
