@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.daleel.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -69,14 +70,14 @@ public class MapsFragment extends Fragment {
             //Set position of marker
             markerOptions.position(location);
             //Set title of marker
-            markerOptions.title(location + " : " + location.longitude);
+            markerOptions.title(mParam1);
             //Remove all marker
             googleMap.clear();
             //Animate to zoom the marker
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     location, 15
             ));
-                googleMap.addMarker(markerOptions);
+            googleMap.addMarker(markerOptions);
 
             }
         });

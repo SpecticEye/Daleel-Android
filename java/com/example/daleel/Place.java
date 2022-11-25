@@ -25,6 +25,17 @@ public class Place {
         this.phone = phone;
     }
 
+    public Place(int id, String name, String category, String street, String city, String postalCode, String country, String phone) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.street = street;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.country = country;
+        this.phone = phone;
+    }
+
     public int getId() {
         return id;
     }

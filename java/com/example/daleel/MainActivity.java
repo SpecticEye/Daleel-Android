@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity implements PlaceFragment.OnI
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SubmitActivity.class);
-                startActivity(intent);
-        }});
+                startActivityForResult(intent, 1);
+            }});
 
         CategoriesFragment categoriesFragment = new CategoriesFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -54,12 +54,28 @@ public class MainActivity extends AppCompatActivity implements PlaceFragment.OnI
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        // check if the request code is same as what is passed  here it is 2
+        if(requestCode==1 && data.getBooleanExtra("SUCCESS", false))
+        {
+            removeFragment("placeFragment");
+            PlaceFragment placeFragment = new PlaceFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.flContainer2, placeFragment, "placeFragment");
+            ft.commit();
+            Toast.makeText(MainActivity.this, "New place added", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
     public void onPlaceItemSelected(int id) {
         Toast.makeText(this, "Called by Fragment A: position - " + id, Toast.LENGTH_SHORT).show();
 
         removeFragment("categoriesFragment");
         Place place = db.getPlace(id);
-        String location = place.getStreet() + place.getPostalCode() + place.getCity() + place.getCountry();
+        String location = place.getName()+ ", " + place.getStreet() + ", " + place.getPostalCode() + " " + place.getCity() + ", " + place.getCountry();
         MapsFragment mapsFragment = new MapsFragment();
         Bundle args = new Bundle();
         args.putString("location", location);

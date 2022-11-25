@@ -1,11 +1,18 @@
 <resources>
     <string name="app_name">Daleel</string>
-    <string-array name="planets_array">
+    <string-array name="categories_array">
+        <item>Category</item>
         <item>Restaurant</item>
         <item>Supermarket</item>
         <item>Mosque</item>
         <item>Shop</item>
         <item>Clinic</item>
         <item>Other</item>
+    </string-array>
+    <string-array name="countries_array">
+        <item>Country</item>
+        <item>Germany</item>
+        <item>Spain</item>
+        <item>UAE</item>
     </string-array>
 </resources>

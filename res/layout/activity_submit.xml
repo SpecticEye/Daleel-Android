@@ -29,13 +29,13 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/nameOfPlace"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:ems="10"
-            android:inputType="textPersonName"
+            android:inputType="text"
             android:paddingLeft="15dp"
             android:hint="Name Of Place"
             android:background="@drawable/input_box_1"/>
@@ -89,8 +89,14 @@
                 android:background="@drawable/input_box_1"/>
         </LinearLayout>
 
+        <Spinner
+            android:id="@+id/country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_box_1"/>
+
         <EditText
-            android:id="@+id/editTextPhone"
+            android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -118,6 +124,19 @@
 
     </LinearLayout>
 
-    <include layout="@layout/menu"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:layout_alignParentLeft="true"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

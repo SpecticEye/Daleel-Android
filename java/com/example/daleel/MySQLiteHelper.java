@@ -1,5 +1,7 @@
 package com.example.daleel;
 
+import static com.example.daleel.data.Places.places;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +17,7 @@ import android.util.Log;
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
     // Database Version
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     // Database Name
     private static final String DATABASE_NAME = "PlaceDB.db";
 
@@ -43,6 +45,23 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
                 // create places table
         db.execSQL(CREATE_PLACE_TABLE);
+        for (int i = 0; i < places.length; i++)
+        {
+            // create ContentValues to add key
+            ContentValues values = new ContentValues();
+            values.put(KEY_NAME, places[i][0]);
+            values.put(KEY_CATEGORY, places[i][1]);
+            values.put(KEY_STREET, places[i][2]);
+            values.put(KEY_POSTAL_CODE, places[i][3]);
+            values.put(KEY_CITY, places[i][4]);
+            values.put(KEY_COUNTRY, places[i][5]);
+            values.put(KEY_PHONE, places[i][6]);
+
+            // insert
+            db.insert(TABLE_BOOKS,
+                    null,
+                    values);
+        }
     }
 
     @Override
@@ -111,12 +130,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         // 3. go over each row, build place and add it to list
         try {
-            if (c.moveToFirst())
+            if (c.moveToLast())
             {
                 do {
-                    Place place = new Place(c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7));
+                    Place place = new Place(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7));
                     places.add(place);
-                } while (c.moveToNext());
+                } while (c.moveToPrevious());
             }
         } catch (Exception e) {
             Log.d("DB", "Error while trying to get posts from database");

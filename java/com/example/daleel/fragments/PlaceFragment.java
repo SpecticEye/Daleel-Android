@@ -20,6 +20,7 @@ import com.example.daleel.PlaceAdapter;
 import com.example.daleel.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,17 +58,9 @@ public class PlaceFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         db = new MySQLiteHelper(getContext());
-
         place_list = new ArrayList<Place>();
-        for (int i = 0; i < places.length; i++)
-        {
-            db.addPlace(new Place(places[i][0], places[i][1], places[i][2], places[i][3], places[i][4], places[i][5], places[i][6]));
-        }
-
-        for (int i = 1; i <= places.length; i++)
-        {
-            place_list.add(db.getPlace(i));
-        }
+        if ((ArrayList<Place>)db.getAllPlaces() != null)
+            place_list.addAll((ArrayList<Place>)db.getAllPlaces());
 
         placeAdapter = new PlaceAdapter(getContext(), R.layout.place_item, place_list);
     }
@@ -96,7 +89,7 @@ public class PlaceFragment extends Fragment {
         placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listener.onPlaceItemSelected(position); // (3) Communicate with Activity using Listener
+                listener.onPlaceItemSelected(place_list.get(position).getId()); // (3) Communicate with Activity using Listener
             }
         });
 
