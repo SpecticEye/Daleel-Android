@@ -38,13 +38,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "country TEXT,"+
                 "phone TEXT)";
 
-        String CREATE_FAVORITES_TABLE = "CREATE TABLE FAVORITES ( " +
+        String CREATE_FAVORITES_TABLE = "CREATE TABLE favorites ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "place_id INTEGER FOREIGN KEY REFERENCES places(id))";
+                "place_id INTEGER, FOREIGN KEY (place_id)  REFERENCES places(id))";
 
 
-                // create places table
+        // create all tables
         db.execSQL(CREATE_PLACE_TABLE);
+        db.execSQL(CREATE_FAVORITES_TABLE);
         for (int i = 0; i < places.length; i++)
         {
             // create ContentValues to add key
@@ -58,7 +59,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             values.put(KEY_PHONE, places[i][6]);
 
             // insert
-            db.insert(TABLE_BOOKS,
+            db.insert(TABLE_PLACES,
                     null,
                     values);
         }
@@ -68,6 +69,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older places table if existed
         db.execSQL("DROP TABLE IF EXISTS places");
+        db.execSQL("DROP TABLE IF EXISTS favorites");
 
         // create fresh places table
         this.onCreate(db);
@@ -79,7 +81,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
      */
 
     // Places table name
-    private static final String TABLE_BOOKS = "places";
+    private static final String TABLE_PLACES = "places";
 
     // Places Table Columns names
     private static final String KEY_ID = "id";
@@ -90,6 +92,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_CITY = "city";
     private static final String KEY_COUNTRY = "country";
     private static final String KEY_PHONE = "phone";
+
+    private static final String TABLE_FAVORITES = "favorites";
+    private static final String KEY_PLACE_ID = "place_id";
 
     private static final String[] COLUMNS = {KEY_ID,KEY_NAME,KEY_STREET,KEY_POSTAL_CODE, KEY_CITY,KEY_COUNTRY,KEY_PHONE};
 
@@ -109,7 +114,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_PHONE, place.getPhone());
 
         // insert
-        db.insert(TABLE_BOOKS,
+        db.insert(TABLE_PLACES,
                 null,
                 values);
 
@@ -159,7 +164,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // 2. delete
         db.beginTransaction();
         try {
-            db.delete(TABLE_BOOKS, null, null);
+            db.delete(TABLE_PLACES, null, null);
             db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("DB", "Error while trying to delete all posts and users");
@@ -222,12 +227,66 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_COUNTRY, place.getCountry());
         values.put(KEY_PHONE, place.getPhone());
         // 3. updating row
-        db.update(TABLE_BOOKS, values,KEY_ID + "=?", new String[] { String.valueOf(place.getId()) });
+        db.update(TABLE_PLACES, values,KEY_ID + "=?", new String[] { String.valueOf(place.getId()) });
 
         // 4. close
         db.close();
         return i;
 
+    }
+
+    public void addFavorite(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_PLACE_ID, id);
+
+        db.insert(TABLE_FAVORITES, null, values);
+        db.close();
+    }
+
+    public void deleteFavorite(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.delete(TABLE_FAVORITES, "id="+id,null);
+        db.close();
+    }
+
+    public List<Place> getAllFavorites() {
+        List<Place> places = new ArrayList<Place>();
+
+        // 1. build the query
+        String GET_ALL = "SELECT * FROM places INNER JOIN favorites ON places.id=favorites.place_id";
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery(GET_ALL, null);
+
+        // 3. go over each row, build place and add it to list
+        try {
+            if (c.moveToLast())
+            {
+                do {
+                    Place place = new Place(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7));
+                    places.add(place);
+                } while (c.moveToPrevious());
+            }
+        } catch (Exception e) {
+            Log.d("DB", "Error while trying to get posts from database");
+        } finally {
+            if (c != null && !c.isClosed()) {
+                c.close();
+            }
+        }
+
+        // return places
+        return places;
+    }
+
+    public boolean isFravorite(int i)
+    {
+        // implement
+        return true;
     }
 
 }

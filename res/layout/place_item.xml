@@ -43,13 +43,16 @@
 
     </LinearLayout>
 
-    <ImageButton
+    <ToggleButton
         android:id="@+id/favBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/btn_star_big_off"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:drawable/btn_star_big_off"
         android:layout_alignParentRight="true"
         android:focusable="false"
+        android:textOff=""
+        android:textOn=""
+        android:checked="false"
         android:focusableInTouchMode="false"/>
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.daleel.fragments;
 
+import static com.example.daleel.MainActivity.GET_FAVORITES;
 import static com.example.daleel.data.Places.places;
 
 import android.content.Context;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.daleel.MainActivity;
 import com.example.daleel.MySQLiteHelper;
@@ -28,6 +31,7 @@ import java.util.List;
  */
 public class PlaceFragment extends Fragment {
 
+    TextView header;
     PlaceAdapter placeAdapter;
     ListView placesListView;
     ArrayList<Place> place_list;
@@ -35,31 +39,38 @@ public class PlaceFragment extends Fragment {
     MySQLiteHelper db;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    //private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM1 = "favorites";
 
     // TODO: Rename and change types of parameters
-    //private String mParam1;
+    private String mParam1;
 
-    /*
+
     public PlaceFragment() {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static PlaceFragment newInstance() {
+    public static PlaceFragment newInstance(String param1) {
         PlaceFragment fragment = new PlaceFragment();
         Bundle args = new Bundle();
+        if (param1 != null)
+            args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
-    */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+        }
+
         db = new MySQLiteHelper(getContext());
         place_list = new ArrayList<Place>();
-        if ((ArrayList<Place>)db.getAllPlaces() != null)
+        if (mParam1 == GET_FAVORITES)
+            place_list.addAll((ArrayList<Place>)db.getAllFavorites());
+        else
             place_list.addAll((ArrayList<Place>)db.getAllPlaces());
 
         placeAdapter = new PlaceAdapter(getContext(), R.layout.place_item, place_list);
@@ -76,6 +87,11 @@ public class PlaceFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         placesListView = getView().findViewById(R.id.placesList);
+        if (mParam1 == GET_FAVORITES){
+            header = getView().findViewById(R.id.header);
+            header.setText("Favorites");
+            header.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        }
         placesListView.setAdapter(placeAdapter);
 
         placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
