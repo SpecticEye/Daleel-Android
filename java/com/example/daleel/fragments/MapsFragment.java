@@ -32,8 +32,8 @@ public class MapsFragment extends Fragment {
     private Button close;
     private onCloseClickedListener listener;
 
-    public static DetailsFragment newInstance(int param1) {
-        DetailsFragment fragment = new DetailsFragment();
+    public static MapsFragment newInstance(int param1) {
+        MapsFragment fragment = new MapsFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, param1);
         fragment.setArguments(args);

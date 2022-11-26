@@ -10,6 +10,7 @@ public class Place {
     private String postalCode;
     private String country;
     private String phone;
+    private byte[] image;
 
     public Place() {
 
@@ -34,6 +35,18 @@ public class Place {
         this.postalCode = postalCode;
         this.country = country;
         this.phone = phone;
+    }
+
+    public Place(int id, String name, String category, String street, String city, String postalCode, String country, String phone, byte[] image) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.street = street;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.country = country;
+        this.phone = phone;
+        this.image = image;
     }
 
     public int getId() {
@@ -98,5 +111,13 @@ public class Place {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

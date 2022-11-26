@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.daleel.fragments.CategoriesFragment;
-import com.example.daleel.fragments.DetailsFragment;
 import com.example.daleel.fragments.MapsFragment;
 import com.example.daleel.fragments.PlaceFragment;
 
@@ -148,19 +147,10 @@ public class MainActivity extends AppCompatActivity implements PlaceFragment.OnI
     }
 
     @Override
-    public void onPlaceItemSelectedLong(int position) {
-        Toast.makeText(this, "Called by Fragment A: position - " + position, Toast.LENGTH_SHORT).show();
-
-        DetailsFragment detailsFragment = new DetailsFragment();
-        Bundle args = new Bundle();
-        args.putInt("position", position);
-        detailsFragment.setArguments(args);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.flContainer, detailsFragment)
-                .addToBackStack(null)
-                .commit();
+    public void onPlaceItemSelectedLong(int id) {
+        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+        intent.putExtra("ID", id);
+        startActivity(intent);
     }
 
     @Override

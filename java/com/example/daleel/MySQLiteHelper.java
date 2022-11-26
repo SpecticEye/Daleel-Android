@@ -1,21 +1,25 @@
 package com.example.daleel;
 
+import static com.example.daleel.DbBitmapUtil.getBytes;
 import static com.example.daleel.data.Places.places;
 
+import static java.security.AccessController.getContext;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
+    Context context;
     // Database Version
     private static final int DATABASE_VERSION = 1;
     // Database Name
@@ -23,6 +27,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     public MySQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -36,7 +41,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
                 "postal_code TEXT,"+
                 "city TEXT,"+
                 "country TEXT,"+
-                "phone TEXT)";
+                "phone TEXT, "+
+                "image BLOB)";
 
         String CREATE_FAVORITES_TABLE = "CREATE TABLE favorites ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -46,6 +52,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // create all tables
         db.execSQL(CREATE_PLACE_TABLE);
         db.execSQL(CREATE_FAVORITES_TABLE);
+
+        // Dummy Data
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.gelsenkirchen_central_mosque);
+        byte[] image = getBytes(bitmap);
         for (int i = 0; i < places.length; i++)
         {
             // create ContentValues to add key
@@ -57,6 +68,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             values.put(KEY_CITY, places[i][4]);
             values.put(KEY_COUNTRY, places[i][5]);
             values.put(KEY_PHONE, places[i][6]);
+            values.put(KEY_IMAGE, image);
 
             // insert
             db.insert(TABLE_PLACES,
@@ -92,11 +104,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String KEY_CITY = "city";
     private static final String KEY_COUNTRY = "country";
     private static final String KEY_PHONE = "phone";
+    private static final String KEY_IMAGE = "image";
 
     private static final String TABLE_FAVORITES = "favorites";
     private static final String KEY_PLACE_ID = "place_id";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_NAME,KEY_STREET,KEY_POSTAL_CODE, KEY_CITY,KEY_COUNTRY,KEY_PHONE};
+    private static final String[] COLUMNS = {KEY_ID,KEY_NAME,KEY_STREET,KEY_POSTAL_CODE, KEY_CITY,KEY_COUNTRY,KEY_PHONE,KEY_IMAGE};
 
     public void addPlace(Place place){
 
@@ -112,6 +125,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_CITY, place.getCity());
         values.put(KEY_COUNTRY, place.getCountry());
         values.put(KEY_PHONE, place.getPhone());
+        values.put(KEY_IMAGE, place.getImage());
 
         // insert
         db.insert(TABLE_PLACES,
@@ -138,7 +152,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             if (c.moveToLast())
             {
                 do {
-                    Place place = new Place(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7));
+                    Place place = new Place(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),
+                            c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getBlob(8));
                     places.add(place);
                 } while (c.moveToPrevious());
             }
@@ -150,6 +165,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             }
         }
 
+        db.close();
         // return places
         return places;
     }
@@ -199,10 +215,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             place.setCity(c.getString(5));
             place.setCountry(c.getString(6));
             place.setPhone(c.getString(7));
+            place.setImage(c.getBlob(8));
         }
 
         // 4. build place object
         Log.d("getPlace("+id+")", place.toString());
+
+        db.close();
 
         // 5. return place
         return place;
@@ -226,6 +245,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_CITY, place.getCity());
         values.put(KEY_COUNTRY, place.getCountry());
         values.put(KEY_PHONE, place.getPhone());
+        values.put(KEY_IMAGE, place.getImage());
         // 3. updating row
         db.update(TABLE_PLACES, values,KEY_ID + "=?", new String[] { String.valueOf(place.getId()) });
 
@@ -267,7 +287,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             if (c.moveToLast())
             {
                 do {
-                    Place place = new Place(c.getInt(0), c.getString(1), c.getString(2), c.getString(3), c.getString(4), c.getString(5), c.getString(6), c.getString(7));
+                    Place place = new Place(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),
+                            c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getBlob(8));
                     places.add(place);
                 } while (c.moveToPrevious());
             }
@@ -279,6 +300,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             }
         }
 
+        db.close();
         // return places
         return places;
     }
@@ -290,3 +312,4 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
 }
+

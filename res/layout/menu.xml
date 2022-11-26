@@ -9,7 +9,8 @@ android:layout_height="wrap_content">
         android:layout_height="wrap_content"
         android:text="Home"
         android:backgroundTint="@color/white"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        style="?android:attr/borderlessButtonStyle"/>
 
     <Button
         android:id="@+id/add"
@@ -18,7 +19,8 @@ android:layout_height="wrap_content">
         android:text="Add"
         android:backgroundTint="@color/white"
         android:textColor="@color/black"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        style="?android:attr/borderlessButtonStyle" />
 
     <Button
         android:id="@+id/favBtn"
@@ -27,6 +29,7 @@ android:layout_height="wrap_content">
         android:text="Favorites"
         android:backgroundTint="@color/white"
         android:textColor="@color/black"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        style="?android:attr/borderlessButtonStyle"/>
 
 </RelativeLayout>

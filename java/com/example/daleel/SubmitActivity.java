@@ -1,23 +1,40 @@
 package com.example.daleel;
 
+import static com.example.daleel.DbBitmapUtil.getBytes;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+
 public class SubmitActivity extends AppCompatActivity {
 
-    Button back, submit;
+    Button back, addImage, submit;
     EditText etName, etStreet, etPostalCode, etCity, etPhone;
     Spinner sCategory, sCountry;
+    ImageView preview;
+    byte[] image;
     MySQLiteHelper db = new MySQLiteHelper(this);
+    static int PICK_IMAGE_CODE = 444;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +58,21 @@ public class SubmitActivity extends AppCompatActivity {
                 R.array.countries_array, android.R.layout.simple_spinner_item);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sCountry.setAdapter(adapter2);
+
+        addImage = findViewById(R.id.addImage);
+        preview = findViewById(R.id.preview);
+
+        addImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ActivityCompat.requestPermissions(SubmitActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
+
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, PICK_IMAGE_CODE);
+            }
+        });
 
         back = findViewById(R.id.back);
 
@@ -81,6 +113,7 @@ public class SubmitActivity extends AppCompatActivity {
                     place.setCity(city);
                     place.setCountry(country);
                     place.setPhone(phone);
+                    place.setImage(image);
 
                     db.addPlace(place);
                     Intent intent = new Intent();
@@ -90,6 +123,23 @@ public class SubmitActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_CODE) {
+            Uri imageUri = data.getData();
+            preview.setImageURI(imageUri);
+            Bitmap bitmap = null;
+            try {
+                bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            image = getBytes(bitmap);
+        }
     }
 
     private boolean isEmpty(String string) {
