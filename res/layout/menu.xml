@@ -3,33 +3,33 @@
 android:layout_width="wrap_content"
 android:layout_height="wrap_content">
 
-    <Button
+    <ImageButton
         android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home"
+        android:src="@drawable/home2"
         android:backgroundTint="@color/white"
-        android:textColor="@color/black"
+        android:scaleType="fitCenter"
         style="?android:attr/borderlessButtonStyle"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add"
+        android:src="@drawable/add"
         android:backgroundTint="@color/white"
-        android:textColor="@color/black"
         android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
         style="?android:attr/borderlessButtonStyle" />
 
-    <Button
+    <ImageButton
         android:id="@+id/favBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Favorites"
+        android:src="@drawable/star"
         android:backgroundTint="@color/white"
-        android:textColor="@color/black"
         android:layout_alignParentRight="true"
+        android:scaleType="fitCenter"
         style="?android:attr/borderlessButtonStyle"/>
 
 </RelativeLayout>

@@ -11,14 +11,15 @@
         android:id="@+id/flContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1" >
-    </FrameLayout>
+        android:layout_weight="1"
+        android:background="#fff7d1"
+        android:padding="10dp"></FrameLayout>
 
     <FrameLayout
         android:id="@+id/flContainer2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <include layout="@layout/menu"/>
 

@@ -150,13 +150,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <Button
+        <ImageButton
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back"
+            android:src="@drawable/arrow"
             android:backgroundTint="@color/white"
-            android:textColor="@color/black"
             android:layout_alignParentLeft="true"
             style="?android:attr/borderlessButtonStyle"/>
 

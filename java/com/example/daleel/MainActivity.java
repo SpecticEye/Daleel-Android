@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -19,7 +19,7 @@ import com.example.daleel.fragments.PlaceFragment;
 
 public class MainActivity extends AppCompatActivity implements PlaceFragment.OnItemSelectedListener, MapsFragment.onCloseClickedListener{
 
-    Button favPageBtn, submitPageBtn, homePageBtn;
+    ImageButton favPageBtn, submitPageBtn, homePageBtn;
     FrameLayout flContainer;
     ViewGroup.LayoutParams params;
     MySQLiteHelper db = new MySQLiteHelper(this);

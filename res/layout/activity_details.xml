@@ -10,15 +10,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
         android:gravity="center"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:orientation="vertical">
 
         <LinearLayout
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:background="@drawable/category_shape"
-        android:gravity="center">
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@drawable/category_shape"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/category"
@@ -28,23 +29,47 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="name"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <TextView
-                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="name" />
+                android:text="Address: " />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Address: " />
+                    android:text="Email: " />
 
                 <TextView
-                    android:id="@+id/address"
+                    android:id="@+id/email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="" />
@@ -53,53 +78,31 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone: " />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Email: " />
-
-                    <TextView
-                        android:id="@+id/email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Phone: " />
-
-                    <TextView
-                        android:id="@+id/phone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="" />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
 
             </LinearLayout>
 
+        </LinearLayout>
 
-            <Button
-                android:id="@+id/showMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Show Map"
-                android:textColor="@color/black"
-                android:backgroundTint="@color/yellow" />
+
+        <Button
+            android:id="@+id/showMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/yellow"
+            android:text="Show Map"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 
@@ -107,19 +110,19 @@
         android:id="@+id/flContainer2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_margin="10dp"
+        android:layout_weight="1" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <Button
+        <ImageButton
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back"
             android:backgroundTint="@color/white"
-            android:textColor="@color/black"
+            android:src="@drawable/arrow"
             android:layout_alignParentLeft="true"
             style="?android:attr/borderlessButtonStyle"/>
 

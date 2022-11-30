@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -28,7 +29,8 @@ import java.io.FileNotFoundException;
 
 public class SubmitActivity extends AppCompatActivity {
 
-    Button back, addImage, submit;
+    Button addImage, submit;
+    ImageButton back;
     EditText etName, etStreet, etPostalCode, etCity, etPhone;
     Spinner sCategory, sCountry;
     ImageView preview;

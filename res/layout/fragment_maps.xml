@@ -17,7 +17,8 @@
             android:text="Close"
             android:textColor="@color/black"
             android:backgroundTint="@color/red"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"/>
 
         <fragment
             android:id="@+id/map"

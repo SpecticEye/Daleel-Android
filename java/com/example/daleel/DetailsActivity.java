@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.daleel.fragments.CategoriesFragment;
@@ -18,7 +19,8 @@ public class DetailsActivity extends AppCompatActivity implements MapsFragment.o
     int placeID;
     MySQLiteHelper db = new MySQLiteHelper(this);
     Place place;
-    Button back, show;
+    Button show;
+    ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
