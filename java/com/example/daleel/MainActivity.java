@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -17,7 +19,7 @@ import com.example.daleel.fragments.CategoriesFragment;
 import com.example.daleel.fragments.MapsFragment;
 import com.example.daleel.fragments.PlaceFragment;
 
-public class MainActivity extends AppCompatActivity implements PlaceFragment.OnItemSelectedListener, MapsFragment.onCloseClickedListener{
+public class MainActivity extends AppCompatActivity implements PlaceFragment.OnItemSelectedListener, MapsFragment.onCloseClickedListener, CategoriesFragment.OnSearchClickListener{
 
     ImageButton favPageBtn, submitPageBtn, homePageBtn;
     FrameLayout flContainer;
@@ -27,10 +29,12 @@ public class MainActivity extends AppCompatActivity implements PlaceFragment.OnI
     enum Pages
     {
         HOME,
-        FAVORITES
+        FAVORITES,
+        SPECIFIC
     }
 
     public static final String GET_FAVORITES = "GET_FAVORITES";
+    public static final String GET_SPECIFIC = "GET_SPECIFIC";
 
     Pages page = Pages.HOME;
 
@@ -91,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements PlaceFragment.OnI
 
                     PlaceFragment placeFragment = new PlaceFragment();
                     Bundle args = new Bundle();
-                    args.putString("favorites", GET_FAVORITES);
+                    args.putString("mode", GET_FAVORITES);
                     placeFragment.setArguments(args);
                     FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
                     ft2.replace(R.id.flContainer2, placeFragment, "placeFragment");
@@ -188,6 +192,34 @@ public class MainActivity extends AppCompatActivity implements PlaceFragment.OnI
     {
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+    }
+
+    public void onSearchClicked(String searchText)
+    {
+        if (!searchText.isEmpty())
+        {
+            removeFragment("placeFragment");
+            PlaceFragment placeFragment = new PlaceFragment();
+            Bundle args = new Bundle();
+            args.putString("mode", GET_SPECIFIC);
+            args.putString("word", searchText);
+            placeFragment.setArguments(args);
+            FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+            ft2.replace(R.id.flContainer2, placeFragment, "placeFragment");
+            ft2.commit();
+
+            page = Pages.SPECIFIC;
+        }
+        else if (page != Pages.HOME)
+        {
+            removeFragment("placeFragment");
+            PlaceFragment placeFragment = new PlaceFragment();
+            FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+            ft2.replace(R.id.flContainer2, placeFragment, "placeFragment");
+            ft2.commit();
+
+            page = Pages.HOME;
         }
     }
 }

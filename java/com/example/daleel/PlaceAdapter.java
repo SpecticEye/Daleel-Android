@@ -5,6 +5,7 @@ import static com.example.daleel.DbBitmapUtil.getImage;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +45,37 @@ public class PlaceAdapter extends ArrayAdapter<Place> {
         // get old data from existing view
         TextView name = convertView.findViewById(R.id.name);
         TextView address = convertView.findViewById(R.id.address);
-        TextView category = convertView.findViewById(R.id.category);
+        ImageView category = convertView.findViewById(R.id.category);
         ImageView image = convertView.findViewById(R.id.image);
         ToggleButton favbtn = convertView.findViewById(R.id.favBtn);
 
         name.setText(placeList.get(position).getName());
         address.setText(placeList.get(position).getStreet());
-        category.setText(placeList.get(position).getCategory());
+
+        int drawableId = 0000;
+
+        Log.d("places", String.valueOf(position));
+        switch (placeList.get(position).getCategory())
+        {
+            case "Restaurant" :
+                drawableId = R.drawable.food;
+                break;
+            case "Mosque" :
+                drawableId = R.drawable.mosque;
+                break;
+            case "Clinic" :
+                drawableId = R.drawable.clinic;
+                break;
+            case "Supermarket" :
+                drawableId = R.drawable.supermarket;
+                break;
+            default:
+                drawableId = R.drawable.clinic;
+        }
+
+        if (drawableId != 0000)
+            category.setImageResource(drawableId);
+
         Bitmap bitmap = getImage(placeList.get(position).getImage());
         image.setImageBitmap(bitmap);
         if (favbtn.isChecked())

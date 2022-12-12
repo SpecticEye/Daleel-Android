@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingLeft="25dp"
-        android:paddingTop="50dp"
+        android:gravity="center"
         android:paddingRight="25dp"
         android:layout_weight="1">
 
@@ -152,11 +152,12 @@
 
         <ImageButton
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/arrow"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:src="@drawable/back"
             android:backgroundTint="@color/white"
             android:layout_alignParentLeft="true"
+            android:scaleType="fitCenter"
             style="?android:attr/borderlessButtonStyle"/>
 
     </RelativeLayout>

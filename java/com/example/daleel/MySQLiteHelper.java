@@ -35,13 +35,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         // SQL statement to create place table
         String CREATE_PLACE_TABLE = "CREATE TABLE places ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "name TEXT, "+
-                "category TEXT, "+
-                "street TEXT,"+
-                "postal_code TEXT,"+
-                "city TEXT,"+
-                "country TEXT,"+
-                "phone TEXT, "+
+                "name TEXT, " +
+                "category TEXT, " +
+                "street TEXT," +
+                "postal_code TEXT," +
+                "city TEXT," +
+                "country TEXT," +
+                "phone TEXT, " +
                 "image BLOB)";
 
         String CREATE_FAVORITES_TABLE = "CREATE TABLE favorites ( " +
@@ -57,8 +57,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
                 R.drawable.gelsenkirchen_central_mosque);
         byte[] image = getBytes(bitmap);
-        for (int i = 0; i < places.length; i++)
-        {
+        for (int i = 0; i < places.length; i++) {
             // create ContentValues to add key
             ContentValues values = new ContentValues();
             values.put(KEY_NAME, places[i][0]);
@@ -96,7 +95,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String TABLE_PLACES = "places";
 
     // Places Table Columns names
-    private static final String KEY_ID = "id";
+    public static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_CATEGORY = "category";
     private static final String KEY_STREET = "street";
@@ -109,9 +108,9 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     private static final String TABLE_FAVORITES = "favorites";
     private static final String KEY_PLACE_ID = "place_id";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_NAME,KEY_STREET,KEY_POSTAL_CODE, KEY_CITY,KEY_COUNTRY,KEY_PHONE,KEY_IMAGE};
+    private static final String[] COLUMNS = {KEY_ID, KEY_NAME, KEY_STREET, KEY_POSTAL_CODE, KEY_CITY, KEY_COUNTRY, KEY_PHONE, KEY_IMAGE};
 
-    public void addPlace(Place place){
+    public void addPlace(Place place) {
 
         // get refrence to writable db
         SQLiteDatabase db = getWritableDatabase();
@@ -149,8 +148,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         // 3. go over each row, build place and add it to list
         try {
-            if (c.moveToLast())
-            {
+            if (c.moveToLast()) {
                 do {
                     Place place = new Place(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),
                             c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getBlob(8));
@@ -194,7 +192,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Log.d("deletePlaces", "All Places deleted");
     }
 
-    public Place getPlace(int id){
+    public Place getPlace(int id) {
 
         Place place = new Place();
 
@@ -219,7 +217,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         }
 
         // 4. build place object
-        Log.d("getPlace("+id+")", place.toString());
+        Log.d("getPlace(" + id + ")", place.toString());
 
         db.close();
 
@@ -247,7 +245,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         values.put(KEY_PHONE, place.getPhone());
         values.put(KEY_IMAGE, place.getImage());
         // 3. updating row
-        db.update(TABLE_PLACES, values,KEY_ID + "=?", new String[] { String.valueOf(place.getId()) });
+        db.update(TABLE_PLACES, values, KEY_ID + "=?", new String[]{String.valueOf(place.getId())});
 
         // 4. close
         db.close();
@@ -268,7 +266,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     public void deleteFavorite(int id) {
         SQLiteDatabase db = getWritableDatabase();
 
-        db.delete(TABLE_FAVORITES, "id="+id,null);
+        db.delete(TABLE_FAVORITES, "id=" + id, null);
         db.close();
     }
 
@@ -284,8 +282,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         // 3. go over each row, build place and add it to list
         try {
-            if (c.moveToLast())
-            {
+            if (c.moveToLast()) {
                 do {
                     Place place = new Place(c.getInt(0), c.getString(1), c.getString(2), c.getString(3),
                             c.getString(4), c.getString(5), c.getString(6), c.getString(7), c.getBlob(8));
@@ -305,11 +302,33 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return places;
     }
 
-    public boolean isFravorite(int i)
-    {
+    public boolean isFravorite(int i) {
         // implement
         return true;
     }
 
+    public Cursor searchForPlaces(String searchString) {
+        //String FIND_PLACES = "SELECT * FROM places WHERE KEY_NAME Like? %" + searchText+"%";
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = getReadableDatabase();
+        String[] columns = new String[]{KEY_ID};
+        searchString = "%" + searchString + "%";
+        String where = KEY_NAME + " LIKE ?";
+        String[] whereArgs = new String[]{searchString};
+
+        Cursor cursor = null;
+
+        try {
+            if (db == null) {
+                db = getReadableDatabase();
+            }
+            cursor = db.query(TABLE_PLACES, columns, where, whereArgs, null, null, null);
+        } catch (Exception e) {
+            Log.d("search_db", "SEARCH EXCEPTION! " + e);
+        }
+
+        return cursor;
+    }
 }
 

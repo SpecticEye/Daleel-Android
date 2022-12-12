@@ -1,17 +1,22 @@
 package com.example.daleel.fragments;
 
 import static com.example.daleel.MainActivity.GET_FAVORITES;
+import static com.example.daleel.MainActivity.GET_SPECIFIC;
 import static com.example.daleel.data.Places.places;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -39,36 +44,64 @@ public class PlaceFragment extends Fragment {
     MySQLiteHelper db;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "favorites";
+    private static final String ARG_PARAM1 = "mode";
+    private static final String ARG_PARAM2 = "word";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String mMode;
+    private String mWord;
 
 
     public PlaceFragment() {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static PlaceFragment newInstance(String param1) {
+    public static PlaceFragment newInstance(String mode, String word) {
         PlaceFragment fragment = new PlaceFragment();
         Bundle args = new Bundle();
-        if (param1 != null)
-            args.putString(ARG_PARAM1, param1);
+        if (mode != null)
+            args.putString(ARG_PARAM1, mode);
+        if (word != null)
+            args.putString(ARG_PARAM2, word);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @SuppressLint("Range")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mMode = getArguments().getString(ARG_PARAM1);
+            mWord = getArguments().getString(ARG_PARAM2);
         }
 
         db = new MySQLiteHelper(getContext());
         place_list = new ArrayList<Place>();
-        if (mParam1 == GET_FAVORITES)
+        placeAdapter = new PlaceAdapter(getContext(), R.layout.place_item, place_list);
+
+        if (mMode == GET_SPECIFIC)
+        {
+            Cursor cursor = db.searchForPlaces(mWord);
+
+            Log.d("place_list", "--------------");
+
+            // Only process a non-null cursor with rows.
+            if (cursor != null) {
+                // You must move the cursor to the first item.
+                cursor.moveToLast();
+                int id;
+                do {
+                    // Get the value from the column for the current cursor.
+                    id = cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.KEY_ID));
+                    place_list.add(db.getPlace(id));
+                    
+                } while (cursor.moveToPrevious()); // Returns true or false
+                cursor.close();
+            } // You should add some handling of null case. Right now, nothing happens.
+        }
+        else if (mMode == GET_FAVORITES)
             place_list.addAll((ArrayList<Place>)db.getAllFavorites());
         else
             place_list.addAll((ArrayList<Place>)db.getAllPlaces());
@@ -87,11 +120,17 @@ public class PlaceFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         placesListView = getView().findViewById(R.id.placesList);
-        if (mParam1 == GET_FAVORITES){
-            header = getView().findViewById(R.id.header);
+        header = getView().findViewById(R.id.header);
+        if (mMode == GET_SPECIFIC)
+        {
+            header.setText("Results for: " + mWord);
+        }
+        else if (mMode == GET_FAVORITES){
+
             header.setText("Favorites");
             header.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         }
+
         placesListView.setAdapter(placeAdapter);
 
         placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

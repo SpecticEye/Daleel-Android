@@ -5,17 +5,17 @@ android:layout_height="wrap_content">
 
     <ImageButton
         android:id="@+id/home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/home2"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:src="@drawable/home"
         android:backgroundTint="@color/white"
         android:scaleType="fitCenter"
         style="?android:attr/borderlessButtonStyle"/>
 
     <ImageButton
         android:id="@+id/add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         android:src="@drawable/add"
         android:backgroundTint="@color/white"
         android:layout_centerHorizontal="true"
@@ -24,8 +24,8 @@ android:layout_height="wrap_content">
 
     <ImageButton
         android:id="@+id/favBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         android:src="@drawable/star"
         android:backgroundTint="@color/white"
         android:layout_alignParentRight="true"

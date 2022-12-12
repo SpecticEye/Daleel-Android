@@ -119,11 +119,12 @@
 
         <ImageButton
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:backgroundTint="@color/white"
-            android:src="@drawable/arrow"
+            android:src="@drawable/back"
             android:layout_alignParentLeft="true"
+            android:scaleType="fitCenter"
             style="?android:attr/borderlessButtonStyle"/>
 
     </RelativeLayout>
