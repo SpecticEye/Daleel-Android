@@ -25,7 +25,7 @@
             android:ems="10"
             android:hint="@string/search_hint"
             android:inputType="text"
-            android:paddingLeft="15dp" />
+            android:paddingRight="15dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                 android:id="@+id/category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/categories_box"
                 android:textAlignment="center" />

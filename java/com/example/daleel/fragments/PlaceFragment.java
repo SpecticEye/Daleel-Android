@@ -125,16 +125,26 @@ public class PlaceFragment extends Fragment {
 
         placesListView = getView().findViewById(R.id.placesList);
         header = getView().findViewById(R.id.header);
+        String result_string = "Results for: ";
+        String favorites_string = "Favorites";
+
+
+        if (getContext().getResources().getConfiguration().locale.toString().equals("ar"))
+        {
+            result_string = "نتائج: ";
+            favorites_string = "الأماكن";
+        }
+
         if (mMode == GET_SPECIFIC)
         {
             if (!mWord.isEmpty())
-                header.setText("Results for: " + mWord);
+                header.setText(result_string + mWord);
             else
-                header.setText("Results for: " + mCategory + "s");
+                header.setText(result_string + mCategory + "s");
         }
         else if (mMode == GET_FAVORITES){
 
-            header.setText("Favorites");
+            header.setText(favorites_string);
             header.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         }
 

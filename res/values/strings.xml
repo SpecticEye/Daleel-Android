@@ -1,5 +1,17 @@
 <resources>
     <string name="app_name">Daleel</string>
+
+    <string name="latest">Latest</string>
+    <string name="add_place">Add A New Place</string>
+    <string name="place_name">Name Of Place</string>
+    <string name="street">Street</string>
+    <string name="postal_code">Postal_Code</string>
+    <string name="city">City</string>
+    <string name="phone">Phone</string>
+    <string name="add_image">Add_Image</string>
+    <string name="search_hint">Search...</string>
+    <string name="submit">SUBMIT</string>
+
     <string-array name="categories_array">
         <item>Category</item>
         <item>Restaurant</item>

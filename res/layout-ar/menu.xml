@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/home"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:src="@drawable/home"
+        android:backgroundTint="@color/white"
+        android:scaleType="fitCenter"
+        style="?android:attr/borderlessButtonStyle"/>
+
+    <ImageButton
+        android:id="@+id/add"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:src="@drawable/add"
+        android:backgroundTint="@color/white"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitCenter"
+        style="?android:attr/borderlessButtonStyle" />
+
+    <ImageButton
+        android:id="@+id/favBtn"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:src="@drawable/star"
+        android:backgroundTint="@color/white"
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitCenter"
+        style="?android:attr/borderlessButtonStyle"/>
+
+</RelativeLayout>

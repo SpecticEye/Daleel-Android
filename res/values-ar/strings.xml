@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">دليل</string>
+    <string name="add_place">أضف مكان جديد</string>
+    <string name="latest">أماكن جديدة</string>
+    <string name="place_name">اسم المكان</string>
+    <string name="street">الشارع</string>
+    <string name="postal_code">رمز بريدي</string>
+    <string name="city">مدينة</string>
+    <string name="phone">هاتف</string>
+    <string name="add_image">أضف صورة</string>
+    <string name="search_hint">ابحث...</string>
+    <string name="submit">إرسال</string>
+
+    <string-array name="categories_array">
+        <item>فئة</item>
+        <item>مطاعم</item>
+        <item>محلات</item>
+        <item>مساجد</item>
+        <item>عيادات</item>
+        <item>آخر</item>
+    </string-array>
+    <string-array name="countries_array">
+        <item>دولة</item>
+        <item>ألمانيا</item>
+        <item>إسبانيا</item>
+        <item>الإمارات العربية المتحدة</item>
+    </string-array>
+</resources>

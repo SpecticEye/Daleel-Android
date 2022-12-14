@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:lineSpacingExtra="20sp"
-        android:text="Latest"
+        android:text="@string/latest"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold" />

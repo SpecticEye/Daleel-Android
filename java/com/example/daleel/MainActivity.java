@@ -1,15 +1,19 @@
 package com.example.daleel;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -19,9 +23,13 @@ import com.example.daleel.fragments.CategoriesFragment;
 import com.example.daleel.fragments.MapsFragment;
 import com.example.daleel.fragments.PlaceFragment;
 
+import java.util.Locale;
+
+
 public class MainActivity extends AppCompatActivity implements PlaceFragment.OnItemSelectedListener, MapsFragment.onCloseClickedListener, CategoriesFragment.OnSearchClickListener{
 
     ImageButton favPageBtn, submitPageBtn, homePageBtn;
+    Button langBtn;
     FrameLayout flContainer;
     ViewGroup.LayoutParams params;
     MySQLiteHelper db = new MySQLiteHelper(this);
@@ -42,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements PlaceFragment.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        activateLangButton();
 
         flContainer = findViewById(R.id.flContainer);
 
@@ -222,5 +232,34 @@ public class MainActivity extends AppCompatActivity implements PlaceFragment.OnI
 
             page = Pages.HOME;
         }
+    }
+
+    public void activateLangButton()
+    {
+        langBtn = findViewById(R.id.langBtn);
+
+        if (getResources().getConfiguration().locale.toString().equalsIgnoreCase("en_US"))
+            langBtn.setText("EN");
+        else if (getResources().getConfiguration().locale.toString().equals("ar"))
+            langBtn.setText("AR");
+
+        langBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (getResources().getConfiguration().locale.toString().equalsIgnoreCase("en_US") || getResources().getConfiguration().locale.toString().equalsIgnoreCase("en")){
+
+                    LocaleHelper.setLocaleV(getBaseContext(), "ar");
+
+                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+                    finish();
+                } else if (getResources().getConfiguration().locale.toString().equalsIgnoreCase("ar")){
+
+                    LocaleHelper.setLocaleV(getBaseContext(), "en_US");
+
+                    startActivity(new Intent(MainActivity.this, MainActivity.class));
+                    finish();
+                }
+            }
+        });
     }
 }
