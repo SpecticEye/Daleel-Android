@@ -4,6 +4,7 @@ import static com.example.daleel.DbBitmapUtil.getBytes;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
@@ -37,6 +38,7 @@ public class SubmitActivity extends AppCompatActivity {
     byte[] image;
     MySQLiteHelper db = new MySQLiteHelper(this);
     static int PICK_IMAGE_CODE = 444;
+    static int requestCode = 222;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +69,21 @@ public class SubmitActivity extends AppCompatActivity {
         addImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityCompat.requestPermissions(SubmitActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
 
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, PICK_IMAGE_CODE);
+                if (ContextCompat.checkSelfPermission(SubmitActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(SubmitActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                        Toast.makeText(SubmitActivity.this, "Please accept the required permissions to access your gallery", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        ActivityCompat.requestPermissions(SubmitActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, requestCode);
+                    }
+                }
+                else {
+                    Intent intent = new Intent(Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, PICK_IMAGE_CODE);
+                }
+
             }
         });
 

@@ -46,23 +46,27 @@ public class PlaceFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "mode";
     private static final String ARG_PARAM2 = "word";
+    private static final String ARG_PARAM3 = "category";
 
     // TODO: Rename and change types of parameters
     private String mMode;
     private String mWord;
+    private String mCategory;
 
 
     public PlaceFragment() {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static PlaceFragment newInstance(String mode, String word) {
+    public static PlaceFragment newInstance(String mode, String word, String category) {
         PlaceFragment fragment = new PlaceFragment();
         Bundle args = new Bundle();
         if (mode != null)
             args.putString(ARG_PARAM1, mode);
         if (word != null)
             args.putString(ARG_PARAM2, word);
+        if (category != null)
+            args.putString(ARG_PARAM3, category);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,6 +79,7 @@ public class PlaceFragment extends Fragment {
         if (getArguments() != null) {
             mMode = getArguments().getString(ARG_PARAM1);
             mWord = getArguments().getString(ARG_PARAM2);
+            mCategory = getArguments().getString(ARG_PARAM3);
         }
 
         db = new MySQLiteHelper(getContext());
@@ -83,12 +88,12 @@ public class PlaceFragment extends Fragment {
 
         if (mMode == GET_SPECIFIC)
         {
-            Cursor cursor = db.searchForPlaces(mWord);
+            Cursor cursor = db.searchForPlaces(mWord, mCategory);
 
             Log.d("place_list", "--------------");
 
             // Only process a non-null cursor with rows.
-            if (cursor != null) {
+            if (cursor != null && cursor.getCount() > 0) {
                 // You must move the cursor to the first item.
                 cursor.moveToLast();
                 int id;
@@ -96,7 +101,6 @@ public class PlaceFragment extends Fragment {
                     // Get the value from the column for the current cursor.
                     id = cursor.getInt(cursor.getColumnIndex(MySQLiteHelper.KEY_ID));
                     place_list.add(db.getPlace(id));
-                    
                 } while (cursor.moveToPrevious()); // Returns true or false
                 cursor.close();
             } // You should add some handling of null case. Right now, nothing happens.
@@ -123,7 +127,10 @@ public class PlaceFragment extends Fragment {
         header = getView().findViewById(R.id.header);
         if (mMode == GET_SPECIFIC)
         {
-            header.setText("Results for: " + mWord);
+            if (!mWord.isEmpty())
+                header.setText("Results for: " + mWord);
+            else
+                header.setText("Results for: " + mCategory + "s");
         }
         else if (mMode == GET_FAVORITES){
 

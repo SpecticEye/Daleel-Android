@@ -97,7 +97,13 @@ public class CategoriesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String word = searchText.getText().toString();
-                listener.onSearchClicked(word);
+
+                String category = sCategory.getSelectedItem().toString();
+
+                if (category.equals("Category"))
+                    category = null;
+
+                listener.onSearchClicked(word, category);
             }
         });
 
@@ -115,6 +121,6 @@ public class CategoriesFragment extends Fragment {
     }
 
     public interface OnSearchClickListener {
-        void onSearchClicked(String searchText);
+        void onSearchClicked(String searchText, String category);
     }
 }

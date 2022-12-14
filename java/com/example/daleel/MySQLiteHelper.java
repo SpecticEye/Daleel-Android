@@ -307,15 +307,28 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public Cursor searchForPlaces(String searchString) {
+    public Cursor searchForPlaces(String searchString, String category) {
         //String FIND_PLACES = "SELECT * FROM places WHERE KEY_NAME Like? %" + searchText+"%";
 
         // 2. get reference to writable DB
-        SQLiteDatabase db = getReadableDatabase();
-        String[] columns = new String[]{KEY_ID};
+        SQLiteDatabase db = getWritableDatabase();
+
+
         searchString = "%" + searchString + "%";
-        String where = KEY_NAME + " LIKE ?";
-        String[] whereArgs = new String[]{searchString};
+        String[] whereArgs;
+
+        String GET_SPECIFIC;
+        if (category!=null)
+        {
+            whereArgs = new String[]{searchString, category};
+            GET_SPECIFIC = "SELECT id FROM places WHERE name LIKE ? AND category = ?";
+        }
+
+        else
+        {
+            whereArgs = new String[]{searchString};
+            GET_SPECIFIC = "SELECT id FROM places WHERE name LIKE ?";
+        }
 
         Cursor cursor = null;
 
@@ -323,7 +336,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
             if (db == null) {
                 db = getReadableDatabase();
             }
-            cursor = db.query(TABLE_PLACES, columns, where, whereArgs, null, null, null);
+            cursor = db.rawQuery(GET_SPECIFIC, whereArgs);
         } catch (Exception e) {
             Log.d("search_db", "SEARCH EXCEPTION! " + e);
         }

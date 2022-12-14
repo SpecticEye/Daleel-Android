@@ -195,15 +195,16 @@ public class MainActivity extends AppCompatActivity implements PlaceFragment.OnI
         }
     }
 
-    public void onSearchClicked(String searchText)
+    public void onSearchClicked(String searchText, String category)
     {
-        if (!searchText.isEmpty())
+        if (!searchText.isEmpty() || category != null)
         {
             removeFragment("placeFragment");
             PlaceFragment placeFragment = new PlaceFragment();
             Bundle args = new Bundle();
             args.putString("mode", GET_SPECIFIC);
             args.putString("word", searchText);
+            args.putString("category", category);
             placeFragment.setArguments(args);
             FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
             ft2.replace(R.id.flContainer2, placeFragment, "placeFragment");
